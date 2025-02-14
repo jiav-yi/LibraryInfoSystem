@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static com.jnu.constants.ConfigConstants.FAIL;
+import static com.jnu.constants.ConfigConstants.SUCCESS;
+
 /**
  * 公共响应类
  * @param <T>
@@ -17,23 +20,23 @@ public class Result<T> {
     private T data;
 
     public static<T>  Result<T> success(){
-        return new Result<>(20000,"success",null);
+        return new Result<>(SUCCESS,"success",null);
     }
 
     public static<T>  Result<T> success(T data){
-        return new Result<>(20000,"success",data);
+        return new Result<>(SUCCESS,"success",data);
     }
 
     public static<T>  Result<T> success(T data, String message){
-        return new Result<>(20000,message,data);
+        return new Result<>(SUCCESS,message,data);
     }
 
     public static<T>  Result<T> success(String message){
-        return new Result<>(20000,message,null);
+        return new Result<>(SUCCESS,message,null);
     }
 
     public static<T>  Result<T> fail(){
-        return new Result<>(20001,"fail",null);
+        return new Result<>(FAIL,"fail",null);
     }
 
     public static<T>  Result<T> fail(Integer code){
@@ -45,6 +48,6 @@ public class Result<T> {
     }
 
     public static<T>  Result<T> fail( String message){
-        return new Result<>(20001,message,null);
+        return new Result<>(FAIL,message,null);
     }
 }
