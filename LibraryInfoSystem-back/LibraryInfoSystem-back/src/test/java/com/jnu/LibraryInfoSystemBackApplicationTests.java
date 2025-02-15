@@ -1,7 +1,7 @@
 package com.jnu;
 
-import com.jnu.sys.entity.Books;
-import com.jnu.sys.mapper.BooksMapper;
+import com.jnu.sys.entity.Book;
+import com.jnu.sys.mapper.BookMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,11 +12,11 @@ import java.util.List;
 class LibraryInfoSystemBackApplicationTests {
 
     @Resource
-    private BooksMapper booksMapper;
+    private BookMapper bookMapper;
 
     @Test
     void testMapper() {
-        List<Books> books = booksMapper.selectList(null);
+        List<Book> books = bookMapper.selectList(null);
         books.forEach(System.out::println);
     }
 }

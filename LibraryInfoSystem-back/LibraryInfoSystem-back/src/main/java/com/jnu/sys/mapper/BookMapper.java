@@ -1,6 +1,6 @@
 package com.jnu.sys.mapper;
 
-import com.jnu.sys.entity.Books;
+import com.jnu.sys.entity.Book;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jiav
  * @since 2025-01-26
  */
-public interface BooksMapper extends BaseMapper<Books> {
+public interface BookMapper extends BaseMapper<Book> {
 
 }

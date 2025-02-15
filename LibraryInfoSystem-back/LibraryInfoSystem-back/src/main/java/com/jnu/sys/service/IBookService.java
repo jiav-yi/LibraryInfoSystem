@@ -1,7 +1,10 @@
 package com.jnu.sys.service;
 
-import com.jnu.sys.entity.Books;
+import com.jnu.commmon.vo.Result;
+import com.jnu.sys.entity.Book;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -11,7 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author jiav
  * @since 2025-01-26
  */
-public interface IBooksService extends IService<Books> {
+public interface IBookService extends IService<Book> {
     /**
      * 识别图书
      * @param file_base64
@@ -26,4 +29,11 @@ public interface IBooksService extends IService<Books> {
      *           }
      */
     String ocr(String file_base64);
+
+    /**
+     * 录入图书
+     * @param book
+     * @return 是否成功录入
+     */
+    boolean addBook(Book book);
 }

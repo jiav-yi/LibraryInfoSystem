@@ -11,7 +11,7 @@ import java.sql.Blob;
  * @author jiav
  * @since 2025-01-26
  */
-public class Books implements Serializable {
+public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class Books implements Serializable {
 
     private String author;
 
-    private String description;
+    private String introduction;
 
     private String comments;
 
@@ -50,12 +50,12 @@ public class Books implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public String getDescription() {
-        return description;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
     public String getComments() {
         return comments;
@@ -81,11 +81,11 @@ public class Books implements Serializable {
 
     @Override
     public String toString() {
-        return "Books{" +
+        return "Book{" +
             "isbn=" + isbn +
             ", title=" + title +
             ", author=" + author +
-            ", description=" + description +
+            ", introduction=" + introduction +
             ", comments=" + comments +
             ", image=" + image +
             ", stock=" + stock +

@@ -16,7 +16,7 @@ public class CodeGenerator {
         String basePackage = "com.jnu";
         String moduleName = "sys";
         String mapperLocation = "E:\\Programme\\graduation\\LibraryInfoSystem-back\\LibraryInfoSystem-back\\src\\main\\resources\\mapper\\" + moduleName;
-        String tableName = "books";
+        String tableName = "book";
 //        String tablePrefix = "x_";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {

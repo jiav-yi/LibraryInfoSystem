@@ -1,13 +1,19 @@
 package com.jnu.sys.service.impl;
 
-import com.jnu.sys.entity.Books;
-import com.jnu.sys.mapper.BooksMapper;
-import com.jnu.sys.service.IBooksService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jnu.commmon.vo.Result;
+import com.jnu.sys.entity.Book;
+import com.jnu.sys.mapper.BookMapper;
+import com.jnu.sys.service.IBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jnu.utils.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.jnu.constants.ConfigConstants.*;
 
@@ -21,8 +27,7 @@ import static com.jnu.constants.ConfigConstants.*;
  * @since 2025-01-26
  */
 @Service
-public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements IBooksService {
-
+public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IBookService {
     /**
      * 文字识别图书
      * @return
@@ -49,5 +54,27 @@ public class BooksServiceImpl extends ServiceImpl<BooksMapper, Books> implements
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 图书录入
+     */
+    public boolean addBook(Book book) {
+        QueryWrapper<Book> bookWrapper = new QueryWrapper<>();
+        // 检查图书是否存在(ISBN为主键)
+        bookWrapper.eq("isbn", book.getIsbn());
+        Book select_book = baseMapper.selectOne(bookWrapper);
+
+        // 便于检查
+        System.out.println(select_book);
+
+        // 判断图书是否存在
+        if (select_book == null) {
+            boolean isSave = save(book);
+            System.out.println(isSave);
+            return isSave;
+        }
+        // 图书已经存在
+        return false;
     }
 }
