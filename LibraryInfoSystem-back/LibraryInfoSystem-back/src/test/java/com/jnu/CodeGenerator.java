@@ -2,6 +2,7 @@ package com.jnu;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 import java.util.Collections;
@@ -31,7 +32,8 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.xml, mapperLocation)); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude(tableName); // 设置需要生成的表名
+                    builder.addInclude(tableName);
+                            //.entityBuilder().fileOverride().mapperBuilder().fileOverride(); // 设置需要生成的表名
 //                            .addTablePrefix(tablePrefix); // 设置过滤表前缀
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

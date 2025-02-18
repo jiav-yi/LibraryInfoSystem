@@ -1,5 +1,7 @@
 package com.jnu.sys.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jnu.commmon.vo.Result;
@@ -10,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jnu.utils.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -76,5 +79,21 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
         }
         // 图书已经存在
         return false;
+    }
+
+    /**
+     * 获取图书封面
+     */
+    public String getImage(String isbn) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 请求url
+        String url = DB_URL + "/" + isbn + "?apikey=" + DB_API_KEY;
+        String response = restTemplate.getForObject(url, String.class);
+        String image = JSON.parseObject(response).getString("image");
+
+        System.out.println("image:" + image);
+
+        return image;
     }
 }

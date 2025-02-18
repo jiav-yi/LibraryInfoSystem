@@ -2,19 +2,23 @@ package com.jnu.sys.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jnu.commmon.vo.Result;
 import com.jnu.sys.entity.Book;
 import com.jnu.sys.service.IBookService;
 import com.jnu.utils.BigModelUtil;
 import com.jnu.utils.ImageToBase64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.jnu.constants.ConfigConstants.SCAN_BOOK_QUESTION;
+import static com.jnu.constants.ConfigConstants.*;
 
 /**
  * <p>
@@ -84,6 +88,21 @@ public class BookController {
         // 打印book，方便检查问题
         System.out.println(book);
 
+        // 获取图书封面
+        String image = bookService.getImage(book.getIsbn());
+        book.setImage(image);
+
+        // 获取图书评论报告
+        String book_data = "{title:" + book.getTitle() + ",author:" +book.getAuthor() + ",isbn:" +book.getIsbn() + ",introduction:" + book.getIntroduction() + "}";
+        String question = GET_COMMENTS_JSON_QUESTION + book_data;
+        String comments = bigModelUtil.sendQuestion(question);
+        // 由于大语言模型返回的json串为Markdown格式，需要对answer进行去除多余的内容得到json串(string)
+        comments = bigModelUtil.cleanAiResponse(comments);
+        book.setComments(comments);
+
+        // 方便检查
+        System.out.println("comments:" + comments);
+
         // 录入图书
         boolean isSave = bookService.addBook(book);
 
@@ -92,5 +111,42 @@ public class BookController {
         } else {
             return Result.fail("该图书已存在");
         }
+    }
+
+    // 按(条件)查询图书列表
+    @GetMapping("/list")
+    public Result<Map<String, Object>> getBookList(@RequestParam(value = "title", required = false) String title,
+                                                  @RequestParam(value = "isbn", required = false) String isbn,
+                                                  @RequestParam(value = "author", required = false) String author,
+                                                  @RequestParam(value = "pageNo") Long pageNo,
+                                                  @RequestParam(value = "pageSize") Long pageSize) {
+        LambdaQueryWrapper<Book> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StringUtils.hasLength(title), Book::getTitle, title);
+        wrapper.eq(StringUtils.hasLength(isbn), Book::getIsbn, isbn);
+        wrapper.eq(StringUtils.hasLength(author), Book::getAuthor, author);
+        wrapper.orderByDesc(Book::getIsbn);
+
+        Page<Book> page = new Page<>(pageNo, pageSize);
+        bookService.page(page, wrapper);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("total", page.getTotal());
+        data.put("rows", page.getRecords());
+
+        return Result.success(data);
+    }
+
+    // 修改图书
+    @PutMapping
+    public Result<?> updateBook(@RequestBody Book book) {
+        bookService.updateById(book);
+        return Result.success("修改图书信息成功!!");
+    }
+
+    // 根据ISBN查询图书
+    @GetMapping("/{isbn}")
+    public Result<Book> getBookByIsbn(@PathVariable("isbn") String isbn) {
+        Book book = bookService.getById(isbn);
+        return Result.success(book);
     }
 }

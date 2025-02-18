@@ -36,4 +36,11 @@ public interface IBookService extends IService<Book> {
      * @return 是否成功录入
      */
     boolean addBook(Book book);
+
+    /**
+     * 获取图书封面
+     * @param isbn
+     * @return 图书封面
+     */
+    String getImage(String isbn);
 }

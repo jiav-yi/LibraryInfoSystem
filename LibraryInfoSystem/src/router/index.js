@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import { title } from '@/settings'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -55,108 +56,55 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '图书信息录入', icon: 'add' }
-      }
-    ]
-  },
 
   {
-    path: '/example',
+    path: '/sys',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '图书信息优化', icon: 'improve' },
+    redirect: '/sys/add',
+    name: 'sys',
+    meta: { title: '图书管理', icon: 'form' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'add',
+        name: 'add',
+        component: () => import('@/views/sys/add'),
+        meta: { title: '图书录入', icon: 'add' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: '统计分析',
-      icon: 'math'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'book',
+        name: 'book',
+        component: () => import('@/views/sys/book'),
+        meta: { title: '图书管理', icon: 'table' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: 'detail',
+        name: 'detail',
+        hidden: true,
+        component: () => import('@/views/sys/detail'),
+        meta: { title: '图书详情', icon: 'form'}
       }
     ]
   },
+
+  {
+    path: '/statistic',
+    component: Layout,
+    redirect: '/statistic',
+    children: [{
+      path: 'statistic',
+      name: 'statistic',
+      component: () => import('@/views/statistic/index'),
+      meta: { title: '统计分析', icon: 'math' }
+    }]
+  }, 
 
   {
     path: 'external-link',
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://github.com/jiav-yi/LibraryInfoSystem',
+        meta: { title: '帮助', icon: 'link' }
       }
     ]
   },

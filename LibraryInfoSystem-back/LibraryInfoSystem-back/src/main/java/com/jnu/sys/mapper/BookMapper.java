@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author jiav
- * @since 2025-01-26
+ * @since 2025-02-16
  */
 public interface BookMapper extends BaseMapper<Book> {
 

@@ -1,7 +1,9 @@
 package com.jnu.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
-import java.sql.Blob;
 
 /**
  * <p>
@@ -9,12 +11,13 @@ import java.sql.Blob;
  * </p>
  *
  * @author jiav
- * @since 2025-01-26
+ * @since 2025-02-16
  */
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "isbn", type = IdType.INPUT)
     private String isbn;
 
     private String title;
@@ -25,9 +28,13 @@ public class Book implements Serializable {
 
     private String comments;
 
-    private Blob image;
+    private String image;
 
     private Integer stock;
+
+    private Integer sale;
+
+    private Integer deleted;
 
     public String getIsbn() {
         return isbn;
@@ -64,11 +71,11 @@ public class Book implements Serializable {
     public void setComments(String comments) {
         this.comments = comments;
     }
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(String image) {
         this.image = image;
     }
     public Integer getStock() {
@@ -77,6 +84,20 @@ public class Book implements Serializable {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+    public Integer getSale() {
+        return sale;
+    }
+
+    public void setSale(Integer sale) {
+        this.sale = sale;
+    }
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 
     @Override
@@ -89,6 +110,8 @@ public class Book implements Serializable {
             ", comments=" + comments +
             ", image=" + image +
             ", stock=" + stock +
+            ", sale=" + sale +
+            ", deleted=" + deleted +
         "}";
     }
 }

@@ -40,7 +40,7 @@
 
 
 <script>
-import { ocr, addBook } from '@/api/book'
+import bookApi from '@/api/book'
 
 export default {
   data() {
@@ -86,7 +86,7 @@ export default {
       formData.append('file', file);
 
       // 发送请求到后端进行文字识别
-      ocr(formData).then(response => {
+      bookApi.ocr(formData).then(response => {
         // 重置文件输入
         event.target.value = '';
         // 便于检查
@@ -158,7 +158,7 @@ export default {
       this.submitLoading = true;
 
       // 发送请求到后端录入图书
-      addBook(bookData).then(response => {
+      bookApi.addBook(bookData).then(response => {
         this.$message.success('图书录入成功!');
         // 清空表单
         this.form = {
