@@ -1,6 +1,7 @@
 package com.jnu.sys.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import static com.jnu.constants.ConfigConstants.*;
  * @since 2025-01-26
  */
 @RestController
-@RequestMapping("/book")
+@RequestMapping(value = {"/book", "/statistic"})
 public class BookController {
     @Autowired
     private IBookService bookService;
@@ -148,5 +150,61 @@ public class BookController {
     public Result<Book> getBookByIsbn(@PathVariable("isbn") String isbn) {
         Book book = bookService.getById(isbn);
         return Result.success(book);
+    }
+
+    // 获得统计数据
+    @GetMapping("/data")
+    public Result<?> getStatisticData() {
+        // 总销量
+        long saleTotal = bookService.getSaleTotal();
+        // 图书数
+        long bookTotal = bookService.count();
+        // 热销前6的图书
+        List<Book> top6Books = bookService.findTop6BySale();
+        List<Map<String, Object>> hotBooks = new ArrayList<>();
+        // 词云图数据
+        List<Map<String, Object>> keywordData = new ArrayList<>();
+
+        // 填充hotBooks及keywordData
+        int rank = 1;
+        for (Book book : top6Books) {
+            // 获得相应图书信息
+            String response = bookService.getBookMessage(book.getIsbn());
+            JSONObject jsonObject = JSON.parseObject(response);
+            // 图书评分
+            String rating = jsonObject.getJSONObject("rating").getString("average");
+            // 图书tags
+            JSONArray tags = jsonObject.getJSONArray("tags");
+
+            // 填充hotBooks
+            Map<String, Object> bookMap = new HashMap<>();
+            bookMap.put("rank", rank);
+            bookMap.put("title", book.getTitle());
+            bookMap.put("author", book.getAuthor());
+            bookMap.put("sales", book.getSale());
+            bookMap.put("rating", rating);
+            hotBooks.add(bookMap);
+            rank++;
+
+            // 填充keywordData
+            for(Object tagObject : tags) {
+                JSONObject tag = (JSONObject) tagObject;
+                Map<String, Object> keywordMap = new HashMap<>();
+                keywordMap.put("name", tag.getString("name"));
+                keywordMap.put("value", tag.getString("count"));
+                keywordData.add(keywordMap);
+            }
+        }
+
+        // 将数据都放入data中，然后传给前端
+        Map<String, Object> data = new HashMap<>();
+        data.put("saleTotal", saleTotal);
+        data.put("bookTotal", bookTotal);
+        data.put("hotBooks", hotBooks);
+        data.put("keywordData", keywordData);
+
+        // 便于检查
+        System.out.println(data);
+        return Result.success(data);
     }
 }

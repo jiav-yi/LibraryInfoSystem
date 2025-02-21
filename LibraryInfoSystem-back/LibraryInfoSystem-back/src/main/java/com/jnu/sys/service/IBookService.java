@@ -1,10 +1,9 @@
 package com.jnu.sys.service;
 
-import com.jnu.commmon.vo.Result;
 import com.jnu.sys.entity.Book;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * <p>
@@ -43,4 +42,23 @@ public interface IBookService extends IService<Book> {
      * @return 图书封面
      */
     String getImage(String isbn);
+
+    /**
+     * 获取总销量
+     * @return 总销量
+     */
+    public long getSaleTotal();
+
+    /**
+     * 获得热销前6的图书
+     * @return 热销前6的图书
+     */
+    public List<Book> findTop6BySale();
+
+    /**
+     * 根据isbn获取图书相关信息
+     * @param isbn
+     * @return 图书相关信息Json String形式
+     */
+    public String getBookMessage(String isbn);
 }
