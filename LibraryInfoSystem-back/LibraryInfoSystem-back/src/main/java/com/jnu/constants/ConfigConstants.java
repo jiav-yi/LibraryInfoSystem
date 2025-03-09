@@ -16,7 +16,7 @@ public class ConfigConstants {
      * 文字识别相关
      */
     // 使用百度OCR服务时的Token
-    public static final String OCR_TOKEN = "24.73e9c81fa2fb1a4dc3ab5a20b2306349.2592000.1741601729.282335-117382515";
+    public static final String OCR_TOKEN = "OCR_TOKEN";
     // 调用百度OCR服务的api
     public static final String OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
 
@@ -25,9 +25,9 @@ public class ConfigConstants {
      */
     public static final String HOST_URL = "https://spark-api.xf-yun.com/v1.1/chat";
     public static final String DOMAIN = "lite";
-    public static final String APP_ID = "6870d580";
-    public static final String API_SECRET = "MThlMzYxMTM0Njg5ZTM5OTU0NWU2NmUy";
-    public static final String API_KEY = "cca95262288af7daa8e3278a4dc64a78";
+    public static final String APP_ID = "APP_ID";
+    public static final String API_SECRET = "API_SECRET";
+    public static final String API_KEY = "API_KEY";
     // 用于获得图书信息的问题
     public static final String SCAN_BOOK_QUESTION = "请根据此信息,给出图书标题、作者、ISBN号、简介，并以这样的{ title: 'Book Name', author: 'Author Name', isbn: 'ISBN Number', introduction: 'Book Introduction'}json串回答";
     // 用于获得图书评论报告的问题
@@ -92,6 +92,6 @@ public class ConfigConstants {
     /**
      * 豆瓣相关
      */
-    public static final String DB_API_KEY = "0ac44ae016490db2204ce0a042db2916";
+    public static final String DB_API_KEY = "DB_API_KEY";
     public static final String DB_URL = "https://api.douban.com/v2/book/isbn";
 }
