@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    username: root
-    password: zjwzjw123
+    username: username
+    password: password
     url: jdbc:mysql:///book_db
   redis:
     port: 6379
@@ -31,8 +31,8 @@ model:
   # 允许同时连接大模型的 websocket 数，如果是普通（免费）用户为 2，超过这个数连接响应会报错，具体参考官网。
   QPS: 2
   # 用于权限验证，从服务接口认证信息中获取
-  appId: 6870d580
+  appId: appId
   # 用于权限验证，从服务接口认证信息中获取
-  apiKey: cca95262288af7daa8e3278a4dc64a78
+  apiKey: apiKey
   # 用于权限验证，从服务接口认证信息中获取
-  apiSecret: MThlMzYxMTM0Njg5ZTM5OTU0NWU2NmUy
+  apiSecret: apiSecret
